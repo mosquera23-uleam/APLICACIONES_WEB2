@@ -1,0 +1,35 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model cocinero {
+  id            Int          @id
+  nombre        String
+  sueldoBasico  Int
+  preparaciones preparacion[]
+}
+
+model receta {
+  id            Int          @id
+  nombrePlato   String
+  ingredientes  String
+  preparaciones preparacion[]
+}
+
+model preparacion {
+  id                  Int      @id
+  fecha               DateTime @default(now())
+  hora                DateTime @default(now())
+  cantidadProductos   Int 
+  costo               Int
+  tiempoEstimado      String
+  cocineroId          Int
+  recetaId            Int
+  cocinero            cocinero @relation(fields: [cocineroId], references: [id])
+  receta              receta   @relation(fields: [recetaId], references: [id])
+}
