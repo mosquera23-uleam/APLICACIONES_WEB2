@@ -1,0 +1,114 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Receta {
+  id: Int!
+  nombre: String!
+  descripcion: String!
+  dificultad: String!
+  tiempoPreparacion: Float!
+  estado: Boolean!
+  preparaciones: [Preparacion!]
+}
+
+type Preparacion {
+  id: Int!
+  fecha: DateTime!
+  hora: String!
+  costo: Float!
+  tiempoEstimado: Float!
+  estado: Boolean!
+  cocinero: Cocinero!
+  receta: Receta!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Cocinero {
+  id: Int!
+  nombre: String!
+  sueldoBasico: Float!
+  estado: Boolean!
+  preparaciones: [Preparacion!]
+}
+
+type Query {
+  findAllCocineros(showDeleted: Boolean, dummy: Boolean): [Cocinero!]!
+  cocineros(showDeleted: Boolean): [Cocinero!]!
+  cocinero(id: Int!): Cocinero!
+  recetas(showDeleted: Boolean): [Receta!]!
+  deletedRecetas: [Receta!]!
+  receta(id: Int!): Receta!
+  preparaciones(showDeleted: Boolean): [Preparacion!]!
+  deletedPreparaciones: [Preparacion!]!
+  preparacion(id: Int!): Preparacion!
+}
+
+type Mutation {
+  createCocinero(createCocineroInput: CreateCocineroInput!): Cocinero!
+  updateCocinero(updateCocineroInput: UpdateCocineroInput!): Cocinero!
+  removeCocinero(id: Int!): Cocinero!
+  createReceta(createRecetaInput: CreateRecetaInput!): Receta!
+  updateReceta(id: Int!, updateRecetaInput: UpdateRecetaInput!): Receta!
+  removeReceta(id: Int!): Receta!
+  restoreReceta(id: Int!): Receta!
+  createPreparacion(createPreparacionInput: CreatePreparacionInput!): Preparacion!
+  updatePreparacion(id: Int!, updatePreparacionInput: UpdatePreparacionInput!): Preparacion!
+  removePreparacion(id: Int!): Preparacion!
+  restorePreparacion(id: Int!): Preparacion!
+}
+
+input CreateCocineroInput {
+  nombre: String!
+  sueldoBasico: Float!
+  estado: Boolean! = true
+}
+
+input UpdateCocineroInput {
+  nombre: String
+  sueldoBasico: Float
+  estado: Boolean = true
+  id: Int!
+}
+
+input CreateRecetaInput {
+  nombre: String!
+  descripcion: String!
+  dificultad: String!
+  tiempoPreparacion: Float!
+  estado: Boolean! = true
+}
+
+input UpdateRecetaInput {
+  nombre: String
+  descripcion: String
+  dificultad: String
+  tiempoPreparacion: Float
+  estado: Boolean = true
+  id: Int!
+}
+
+input CreatePreparacionInput {
+  fecha: DateTime!
+  hora: String!
+  costo: Float!
+  tiempoEstimado: Float!
+  estado: Boolean! = true
+  cocineroId: Int!
+  recetaId: Int!
+}
+
+input UpdatePreparacionInput {
+  fecha: DateTime
+  hora: String
+  costo: Float
+  tiempoEstimado: Float
+  estado: Boolean = true
+  cocineroId: Int
+  recetaId: Int
+  id: Int!
+}
